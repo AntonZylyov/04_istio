@@ -1,0 +1,5 @@
+/docker/user_api_service/src/vendor/
+/docker/user_api_service/src/composer.lock
+/docker/user_panel_service/src/vendor/
+/docker/user_panel_service/src/composer.lock
+.idea
