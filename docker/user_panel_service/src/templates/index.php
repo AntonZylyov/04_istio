@@ -15,7 +15,7 @@
 					Phone: <?=$user['phone']?>
 				</p>
 				<a href="#" class="card-link" data-toggle="modal" data-target="#editUser_<?=$user['id']?>">Изменить</a>
-				<a href="/delete_user/?id=<?=$user['id']?>" class="card-link">Удалить</a>
+				<a href="<?=$baseUrl?>/delete_user/?id=<?=$user['id']?>" class="card-link">Удалить</a>
 			</div>
 		</div>
 		<div class="modal fade" id="editUser_<?=$user['id']?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -27,7 +27,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-					<form action="/edit_user/" method="post">
+					<form action="<?=$baseUrl?>/edit_user/" method="post">
 						<input type="hidden" name="id" value="<?=$user['id']?>">
 						<div class="modal-body">
 							<div class="form-group">
@@ -78,7 +78,7 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form action="/add_user/" method="post">
+			<form action="<?=$baseUrl?>/add_user/" method="post">
 			<div class="modal-body">
 					<div class="form-group">
 						<label>Username</label>

@@ -12,10 +12,11 @@ $phpView = new PhpRenderer('../templates');
 $phpView->setLayout("layout.php");
 
 \MyApp\User::setBaseUrl($_ENV['USER_API_SERVICE_URL']);
+$baseUrl = $_ENV['BASE_URL'] ?: '/';
 
 $app->addRoutingMiddleware();
 
-$app->get('/', static function (Request $request, Response $response, $args) use ($phpView) {
+$app->get('/', static function (Request $request, Response $response, $args) use ($phpView, $baseUrl) {
 	$users = [];
 	foreach ((new \MyApp\RecentUser())->getIds() as $userId)
 	{
@@ -30,12 +31,13 @@ $app->get('/', static function (Request $request, Response $response, $args) use
 		}
 	}
 	return $phpView->render($response, "index.php", [
+		'baseUrl' => $baseUrl,
 		'title' => 'Пользователи',
 		'users' => $users
 	]);
 });
 
-$app->post('/add_user/', static function (Request $request, Response $response, $args) {
+$app->post('/add_user/', static function (Request $request, Response $response, $args) use ($baseUrl) {
 	$user = new \MyApp\User();
 	$id = $user->add($request->getParsedBody());
 	if ($id)
@@ -44,20 +46,20 @@ $app->post('/add_user/', static function (Request $request, Response $response, 
 	}
 	return $response
 		->withStatus(302)
-		->withHeader('Location', '/');
+		->withHeader('Location', $baseUrl);
 });
 
-$app->post('/edit_user/', static function (Request $request, Response $response, $args) {
+$app->post('/edit_user/', static function (Request $request, Response $response, $args) use ($baseUrl) {
 	$fields = $request->getParsedBody();
 	$user = new \MyApp\User();
 	$user->update((int)$fields['id'], $fields);
 	return $response
 		->withStatus(302)
-		->withHeader('Location', '/');
+		->withHeader('Location', $baseUrl);
 });
 
 
-$app->get('/delete_user/', static function (Request $request, Response $response, $args) {
+$app->get('/delete_user/', static function (Request $request, Response $response, $args) use ($baseUrl) {
 	$user = new \MyApp\User();
 	$id = (int)$request->getQueryParams()['id'];
 	if ($user->delete($id))
@@ -66,7 +68,7 @@ $app->get('/delete_user/', static function (Request $request, Response $response
 	}
 	return $response
 		->withStatus(302)
-		->withHeader('Location', '/');
+		->withHeader('Location', $baseUrl);
 });
 
 $app->run();

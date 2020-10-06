@@ -1,7 +1,9 @@
-replicaCount: 2
+userApiReplicaCount: 1
+userPanelReplicaCount: 1
 
 image:
-  repository: antonzylyov/myapp:v3
+  userApi: antonzylyov/myapp:v2
+  userPanel: antonzylyov/userpanel:v4
 
 ingress:
   host: bit.homework
@@ -9,7 +11,8 @@ ingress:
 
 service:
   type: NodePort
-  port: 9000
+  userApiPort: 9000
+  userPanelPort: 9001
 
 metrics:
   serviceMonitor:
@@ -23,7 +26,4 @@ mysql:
   mysqlRootPassword: ""
   service:
     port: 3306
-  metrics:
-    enabled: true
-    serviceMonitor:
-      enabled: true
+

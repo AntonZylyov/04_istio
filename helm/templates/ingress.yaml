@@ -17,5 +17,5 @@ spec:
         paths:
           - path: {{ .Values.ingress.path }}($|/)(.*)
             backend:
-              serviceName: {{ include "myapp_v4.fullname" . }}
-              servicePort: {{ .Values.service.port }}
+              serviceName: {{ include "myapp_v4.fullname" . }}-panel
+              servicePort: {{ .Values.service.userPanelPort }}
